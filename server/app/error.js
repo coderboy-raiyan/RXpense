@@ -5,7 +5,6 @@ function notFound(__req, _res, next) {
 }
 
 function globalErrorHandler(error, _req, res) {
-    console.log(error);
     if (error.status) {
         return res.status(error.status).json({ message: error.message });
     }
