@@ -1,10 +1,10 @@
 const bcrypt = require('bcryptjs');
 const User = require('../../models/User.model');
 const createAsyncError = require('../../middlewares/createAsyncError');
-const { accessToken, refreshToken } = require('../../libs/jwt');
+const { accessToken, refreshToken, verifyJwtToken } = require('../../libs/jwt');
 
 // @desc Register
-// @routes /api/v1/auth/register
+// @routes POST - /api/v1/auth/register
 // @access For register public users
 
 const register = createAsyncError(async (req, res) => {
@@ -28,7 +28,7 @@ const register = createAsyncError(async (req, res) => {
 });
 
 // @desc Login
-// @routes /api/v1/auth/login
+// @routes POST - /api/v1/auth/login
 // @access For Login public users
 
 const login = createAsyncError(async (req, res) => {
@@ -55,9 +55,10 @@ const login = createAsyncError(async (req, res) => {
 
     res.cookie('refresh', createdRefreshToken, {
         httpOnly: true,
+        path: '/',
         secure: true,
         sameSite: 'None',
-        maxAge: 20000,
+        maxAge: 60 * 60 * 1000,
     });
 
     return res
@@ -65,4 +66,57 @@ const login = createAsyncError(async (req, res) => {
         .json({ accessToken: createdAccessToken, message: 'Logged in successfully' });
 });
 
-module.exports = { register, login };
+// @desc Refresh
+// @routes GET - /api/v1/auth/refresh
+// @access get a new access token for the user
+
+const refresh = createAsyncError(async (req, res) => {
+    const { refresh } = req.cookies;
+    console.log(refresh);
+    if (!refresh) {
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    const isVerified = await verifyJwtToken(refresh, process.env.REFRESH_TOKEN_SECRET);
+
+    if (!isVerified) {
+        return res.status(403).json({ message: 'Forbidden' });
+    }
+
+    const findUser = await User.findOne({ _id: isVerified._id });
+
+    if (!findUser) {
+        return res.status(401).json({ message: 'Unauthorized' });
+    }
+
+    const newAccessToken = accessToken(findUser._doc._id);
+
+    return res.status(200).json({ token: newAccessToken });
+});
+
+// @desc Logout
+// @routes POST - /api/v1/auth/logout
+// @access Logout user and clear cookies
+
+const logout = createAsyncError(async (req, res) => {
+    const { refresh } = req.cookies;
+
+    if (!refresh) {
+        return res.statusCode(200);
+    }
+
+    res.clearCookie('refresh', {
+        httpOnly: true,
+        secure: true,
+        sameSite: 'None',
+    });
+
+    return res.status(200).json({ message: 'Cookie has been cleared' });
+});
+
+module.exports = {
+    logout,
+    register,
+    login,
+    refresh,
+};
