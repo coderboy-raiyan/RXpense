@@ -22,9 +22,22 @@ const register = createAsyncError(async (req, res) => {
 
     const hashPassword = await bcrypt.hash(password, 10);
 
-    await new User({ name, email, password: hashPassword }).save();
+    const newUser = new User({ name, email, password: hashPassword });
 
-    return res.status(200).json({ message: 'Registration successfully done' });
+    await newUser.save();
+
+    const createdRefreshToken = refreshToken(newUser._doc._id);
+    const createdAccessToken = accessToken(newUser._doc._id);
+
+    res.cookie('refresh', createdRefreshToken, {
+        httpOnly: true,
+        path: '/',
+        secure: true,
+        sameSite: 'None',
+        maxAge: 60 * 60 * 1000,
+    });
+
+    return res.status(200).json({ accessToken: createdAccessToken, message: 'Registration done' });
 });
 
 // @desc Login
