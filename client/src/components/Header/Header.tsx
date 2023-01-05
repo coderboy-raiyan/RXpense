@@ -3,33 +3,39 @@ import { Link } from "react-router-dom";
 
 const url = [
     {
-        name: "Sign in",
-        path: "/login",
+        name: "Resource",
+        path: "/",
     },
     {
-        name: "Sign up",
-        path: "/register",
+        name: "Pricing",
+        path: "/",
     },
 ];
 
 function Header() {
     return (
-        <header className="shadow">
-            <nav className="mx-4 flex justify-between py-4 lg:mx-auto lg:max-w-6xl">
+        <header className=" border-b bg-slate-50/60 ">
+            <nav className="sticky  top-0 z-40 mx-4 flex items-center justify-between py-4 backdrop-blur-2xl transition-colors duration-500 lg:mx-auto lg:max-w-6xl">
                 {/* left side */}
                 <div>
                     <Link to="/">
-                        <img src={images.tempLogo} alt="" />
+                        <img className="w-[100px] object-contain" src={images.tempLogo} alt="" />
                     </Link>
                 </div>
 
                 {/* right side */}
-                <ul className="flex space-x-4">
-                    {url.map(({ name, path }) => (
-                        <li key={path}>
+                <ul className="flex items-center space-x-4 text-sm">
+                    {url.map(({ name, path }, i: number) => (
+                        <li key={i}>
                             <Link to={path}>{name}</Link>
                         </li>
                     ))}
+                    <li className="rounded-xl bg-indigo-500 py-2 px-4 text-white">
+                        <Link to="/login">Sign In</Link>
+                    </li>
+                    <li className="rounded-xl bg-gray-800 py-2 px-4 text-white">
+                        <Link to="/register">Sign Up</Link>
+                    </li>
                 </ul>
             </nav>
         </header>
