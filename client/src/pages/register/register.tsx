@@ -1,17 +1,50 @@
 import Header from "components/Header/Header";
-import { useState } from "react";
+import React, { useState } from "react";
 import { BsEyeFill, BsEyeSlash } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import httpAuthService from "services/http.authServices";
+
+export interface IRegistrationFromTypes {
+    name: string;
+    email: string;
+    password: string;
+}
 
 function Register() {
     const [togglePassword, setTogglePassword] = useState(false);
+    const [userData, setUserData] = useState<IRegistrationFromTypes>({
+        name: "",
+        email: "",
+        password: "",
+    });
+
+    function handelInputChange(e: React.ChangeEvent<HTMLInputElement>) {
+        const { value, name } = e.target;
+        setUserData((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    }
+
+    async function handelRegistration(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        try {
+            const response = await httpAuthService.signUp(userData);
+            console.log(response);
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     return (
         <>
             <Header />
             <section>
                 <div className="my-20 flex items-center justify-center">
-                    <form className="flex w-2/6 flex-col space-y-4 rounded-xl border bg-white p-6 shadow">
+                    <form
+                        onSubmit={handelRegistration}
+                        className="flex w-2/6 flex-col space-y-4 rounded-xl border bg-white p-6 shadow"
+                    >
                         <h4 className="text-center text-xl font-semibold text-indigo-500">
                             Sign up
                         </h4>
@@ -23,6 +56,7 @@ function Register() {
                                 required
                                 name="name"
                                 type="text"
+                                onChange={handelInputChange}
                                 autoComplete="off"
                             />
                         </label>
@@ -34,6 +68,7 @@ function Register() {
                                 className="rounded border-gray-400 py-3 text-sm focus:outline-none focus:ring-0"
                                 required
                                 type="email"
+                                onChange={handelInputChange}
                                 autoComplete="off"
                             />
                         </label>
@@ -43,6 +78,7 @@ function Register() {
                                 className="w-full rounded border-gray-400 py-3 text-sm focus:outline-none focus:ring-0"
                                 required
                                 id="password"
+                                onChange={handelInputChange}
                                 name="password"
                                 type={`${togglePassword ? "text" : "password"}`}
                                 autoComplete="off"

@@ -3,6 +3,11 @@ import { useState } from "react";
 import { BsEyeFill, BsEyeSlash } from "react-icons/bs";
 import { Link } from "react-router-dom";
 
+export interface ILoginFromTypes {
+    email: string;
+    password: string;
+}
+
 function Login() {
     const [togglePassword, setTogglePassword] = useState(false);
 
