@@ -19,7 +19,7 @@ function Header() {
         <header className=" border-b bg-slate-50/60 ">
             <nav className="sticky  top-0 z-40 mx-4 flex items-center justify-between py-4 backdrop-blur-2xl transition-colors duration-500 lg:mx-auto lg:max-w-6xl">
                 {/* left side */}
-                <div>
+                <div className="flex-shrink-0">
                     <Link to="/">
                         <img className="w-[100px] object-contain" src={images.tempLogo} alt="" />
                     </Link>

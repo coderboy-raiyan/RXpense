@@ -37,7 +37,12 @@ const register = createAsyncError(async (req, res) => {
         maxAge: 60 * 60 * 1000,
     });
 
-    return res.status(200).json({ accessToken: createdAccessToken, message: 'Registration done' });
+    return res.status(200).json({
+        ...newUser._doc,
+        password: null,
+        accessToken: createdAccessToken,
+        message: 'Registration done',
+    });
 });
 
 // @desc Login
@@ -74,9 +79,12 @@ const login = createAsyncError(async (req, res) => {
         maxAge: 60 * 60 * 1000,
     });
 
-    return res
-        .status(200)
-        .json({ accessToken: createdAccessToken, message: 'Logged in successfully' });
+    return res.status(200).json({
+        ...findUser._doc,
+        password: null,
+        accessToken: createdAccessToken,
+        message: 'Logged in successfully',
+    });
 });
 
 // @desc Refresh

@@ -107,9 +107,9 @@ function Login() {
                             )}
                         </label>
 
-                        <div className="flex justify-between text-xs">
-                            <p>
-                                Don't have an account ?{" "}
+                        <div className="flex flex-col items-center justify-center text-xs md:flex-row md:justify-between lg:flex-row lg:justify-between">
+                            <p className="mb-2 lg:mb-0">
+                                Don't have an account ?
                                 <Link className="text-indigo-600" to="/register">
                                     Sign up
                                 </Link>
