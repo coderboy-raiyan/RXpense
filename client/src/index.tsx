@@ -1,6 +1,7 @@
 import AuthProvider from "context/AuthProvider";
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { Toaster } from "react-hot-toast";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import App from "./App";
 import "./App.css";
@@ -14,6 +15,7 @@ root.render(
                     <Route path="/*" element={<App />} />
                 </Routes>
             </BrowserRouter>
+            <Toaster position="bottom-center" reverseOrder />
         </AuthProvider>
     </React.StrictMode>
 );

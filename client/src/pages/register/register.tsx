@@ -43,7 +43,7 @@ function Register() {
                 <div className="my-20 flex items-center justify-center">
                     <form
                         onSubmit={handelRegistration}
-                        className="flex w-2/6 flex-col space-y-4 rounded-xl border bg-white p-6 shadow"
+                        className="mx-4 flex w-full flex-col space-y-4 rounded-xl border bg-white p-6 shadow md:w-2/4 lg:w-2/6"
                     >
                         <h4 className="text-center text-xl font-semibold text-indigo-500">
                             Sign up

@@ -48,7 +48,7 @@ const login = createAsyncError(async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-        return res.status(500).json({ message: 'All the Fields are required' });
+        return res.status(400).json({ message: 'All the Fields are required' });
     }
 
     const findUser = await User.findOne({ email });

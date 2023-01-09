@@ -1,6 +1,11 @@
 import React, { createContext, useState } from "react";
 
-export const AuthContext = createContext({});
+interface IAuthContext {
+    setAuth: React.Dispatch<React.SetStateAction<{}>>;
+    auth: any;
+}
+
+export const AuthContext = createContext<IAuthContext>({} as IAuthContext);
 
 function AuthProvider({ children }: { children: React.ReactNode }) {
     const [auth, setAuth] = useState({});
