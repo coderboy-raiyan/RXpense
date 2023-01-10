@@ -114,7 +114,9 @@ const refresh = createAsyncError(async (req, res) => {
 
     const newAccessToken = accessToken(findUser._doc._id);
 
-    return res.status(200).json({ success: true, token: newAccessToken });
+    return res
+        .status(200)
+        .json({ success: true, accessToken: newAccessToken, ...findUser._doc, password: null });
 });
 
 // @desc Logout

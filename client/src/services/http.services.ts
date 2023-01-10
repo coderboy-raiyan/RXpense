@@ -11,7 +11,7 @@ class HttpServices {
         return response;
     }
 
-    async post(url: string, payload: any, config?: any) {
+    async post(url: string, payload?: any, config?: any) {
         const response = await instance.post(url, payload, config);
         return response;
     }

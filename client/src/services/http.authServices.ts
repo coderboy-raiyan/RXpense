@@ -12,6 +12,16 @@ class HttpAuth {
         const { data } = await httpServices.post("/auth/register", payload);
         return data;
     }
+
+    async refresh() {
+        const { data } = await httpServices.get("/auth/refresh");
+        return data;
+    }
+
+    async logout() {
+        const { data } = await httpServices.post("/auth/logout");
+        return data;
+    }
 }
 
 const httpAuthService = new HttpAuth();

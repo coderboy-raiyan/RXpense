@@ -1,5 +1,9 @@
 function Home() {
-    return <div>home</div>;
+    return (
+        <div>
+            <button type="button">Get new Token</button>
+        </div>
+    );
 }
 
 export default Home;
