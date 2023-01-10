@@ -11,13 +11,13 @@ const register = createAsyncError(async (req, res) => {
     const { name, email, password } = req.body;
 
     if (!name || !email || !password) {
-        return res.status(500).json({ message: 'All the Fields are required' });
+        return res.status(500).json({ success: false, message: 'All the Fields are required' });
     }
 
     const findEmail = await User.findOne({ email });
 
     if (findEmail) {
-        return res.status(403).json({ message: 'User already exists go to login' });
+        return res.status(403).json({ success: false, message: 'User already exists go to login' });
     }
 
     const hashPassword = await bcrypt.hash(password, 10);
@@ -38,6 +38,7 @@ const register = createAsyncError(async (req, res) => {
     });
 
     return res.status(200).json({
+        success: true,
         ...newUser._doc,
         password: null,
         accessToken: createdAccessToken,
@@ -53,19 +54,19 @@ const login = createAsyncError(async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-        return res.status(400).json({ message: 'All the Fields are required' });
+        return res.status(400).json({ success: false, message: 'All the Fields are required' });
     }
 
     const findUser = await User.findOne({ email });
 
     if (!findUser) {
-        return res.status(403).json({ message: 'User not exists go to signup' });
+        return res.status(403).json({ success: false, message: 'User not exists go to signup' });
     }
 
     const verifyPassword = await bcrypt.compare(password, findUser.password);
 
     if (!verifyPassword) {
-        return res.status(403).json({ message: 'Password did not matched' });
+        return res.status(403).json({ success: false, message: 'Password did not matched' });
     }
 
     const createdRefreshToken = refreshToken(findUser._doc._id);
@@ -80,6 +81,7 @@ const login = createAsyncError(async (req, res) => {
     });
 
     return res.status(200).json({
+        success: true,
         ...findUser._doc,
         password: null,
         accessToken: createdAccessToken,
@@ -95,24 +97,24 @@ const refresh = createAsyncError(async (req, res) => {
     const { refresh } = req.cookies;
     console.log(refresh);
     if (!refresh) {
-        return res.status(401).json({ message: 'Unauthorized' });
+        return res.status(401).json({ success: false, message: 'Unauthorized' });
     }
 
     const isVerified = await verifyJwtToken(refresh, process.env.REFRESH_TOKEN_SECRET);
 
     if (!isVerified) {
-        return res.status(403).json({ message: 'Forbidden' });
+        return res.status(403).json({ success: false, message: 'Forbidden' });
     }
 
     const findUser = await User.findOne({ _id: isVerified._id });
 
     if (!findUser) {
-        return res.status(401).json({ message: 'Unauthorized' });
+        return res.status(401).json({ success: false, message: 'Unauthorized' });
     }
 
     const newAccessToken = accessToken(findUser._doc._id);
 
-    return res.status(200).json({ token: newAccessToken });
+    return res.status(200).json({ success: true, token: newAccessToken });
 });
 
 // @desc Logout
@@ -132,7 +134,7 @@ const logout = createAsyncError(async (req, res) => {
         sameSite: 'None',
     });
 
-    return res.status(200).json({ message: 'Cookie has been cleared' });
+    return res.status(200).json({ success: true, message: 'Cookie has been cleared' });
 });
 
 module.exports = {

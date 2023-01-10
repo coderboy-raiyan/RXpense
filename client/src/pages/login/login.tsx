@@ -33,6 +33,9 @@ function Login() {
             setLoading(true);
             const response = await httpAuthService.login(userData);
             setAuth(response);
+            if (response.success) {
+                toast.success("Logged in Successfully");
+            }
             console.log(response);
         } catch (error: any) {
             const errorMsg = error?.response?.data?.message;

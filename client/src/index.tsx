@@ -15,7 +15,7 @@ root.render(
                     <Route path="/*" element={<App />} />
                 </Routes>
             </BrowserRouter>
-            <Toaster position="bottom-center" reverseOrder />
+            <Toaster position="top-center" reverseOrder />
         </AuthProvider>
     </React.StrictMode>
 );
