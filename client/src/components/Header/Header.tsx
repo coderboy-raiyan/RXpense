@@ -24,6 +24,7 @@ function Header() {
                 setAuth({});
             }
         } catch (error) {
+            setAuth({});
             console.log(error);
         }
     }

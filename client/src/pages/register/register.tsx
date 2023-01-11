@@ -1,6 +1,6 @@
 import LoadingButton from "components/Button/LoadingButton";
 import useAuth from "hooks/useAuth";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { BsEyeFill, BsEyeSlash } from "react-icons/bs";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -15,9 +15,15 @@ export interface IRegistrationFromTypes {
 function Register() {
     const [togglePassword, setTogglePassword] = useState(false);
     const [loading, setLoading] = useState(false);
-    const { setAuth } = useAuth();
+    const { auth, setAuth } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (auth?.email) {
+            navigate("/");
+        }
+    }, []);
 
     const [userData, setUserData] = useState<IRegistrationFromTypes>({
         name: "",

@@ -1,10 +1,10 @@
 const jwt = require('jsonwebtoken');
 
 function refreshToken(payload) {
-    return jwt.sign({ _id: payload }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '1h' });
+    return jwt.sign({ _id: payload }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d' });
 }
 function accessToken(payload) {
-    return jwt.sign({ _id: payload }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '10s' });
+    return jwt.sign({ _id: payload }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
 }
 
 async function verifyJwtToken(token, secret) {

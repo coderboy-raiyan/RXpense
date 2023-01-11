@@ -1,6 +1,6 @@
 import LoadingButton from "components/Button/LoadingButton";
 import useAuth from "hooks/useAuth";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { BsEyeFill, BsEyeSlash } from "react-icons/bs";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -15,10 +15,16 @@ function Login() {
     const [togglePassword, setTogglePassword] = useState(false);
     const [userData, setUserData] = useState<ILoginFromTypes>({ email: "", password: "" });
     const [loading, setLoading] = useState(false);
-    const { setAuth } = useAuth();
+    const { auth, setAuth } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
     const from: string = location?.state?.from?.pathname || "/";
+
+    useEffect(() => {
+        if (auth?.email) {
+            navigate("/");
+        }
+    }, []);
 
     function handelInputChange(e: React.ChangeEvent<HTMLInputElement>) {
         const { value, name } = e.target;
