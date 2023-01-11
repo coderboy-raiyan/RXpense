@@ -1,6 +1,7 @@
 import images from "assets/index";
 import useAuth from "hooks/useAuth";
 import { Link } from "react-router-dom";
+import httpAuthService from "services/http.authServices";
 
 const url = [
     {
@@ -14,7 +15,19 @@ const url = [
 ];
 
 function Header() {
-    const { auth } = useAuth();
+    const { auth, setAuth } = useAuth();
+
+    async function logout() {
+        try {
+            const response = await httpAuthService.logout();
+            if (response.success) {
+                setAuth({});
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     return (
         <header className=" border-b bg-slate-50/60 ">
             <nav className="sticky  top-0 z-40 mx-4 flex items-center justify-between py-4 backdrop-blur-2xl transition-colors duration-500 lg:mx-auto lg:max-w-6xl">
@@ -41,6 +54,14 @@ function Header() {
                                 <Link to="/register">Sign Up</Link>
                             </li>
                         </>
+                    )}
+
+                    {auth.email && (
+                        <li>
+                            <button onClick={logout} type="button">
+                                Logout
+                            </button>
+                        </li>
                     )}
                 </ul>
             </nav>

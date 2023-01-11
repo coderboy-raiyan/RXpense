@@ -10,7 +10,7 @@ function useRefresh() {
             setAuth(response);
             return response?.accessToken;
         } catch (error) {
-            await httpAuthService.logout();
+            console.log(error);
         }
     }
 
