@@ -10,9 +10,9 @@ function Banner() {
             >
                 {/* left side */}
                 <div className="w-full space-y-6 md:w-2/4 lg:w-2/4">
-                    <h1 className="text-4xl font-semibold text-gray-800 lg:text-5xl">
-                        The <span className="text-indigo-600 underline">Expense Tracker</span>{" "}
-                        <br /> that works for you
+                    <h1 className="text-4xl font-semibold !leading-[60px] text-gray-800 lg:text-5xl">
+                        The <span className="text-[#FF6584] underline">Expense Tracker</span> <br />{" "}
+                        that works for you
                     </h1>
                     <p className="font-bold text-gray-800">Track all your expenses here...</p>
                     <button

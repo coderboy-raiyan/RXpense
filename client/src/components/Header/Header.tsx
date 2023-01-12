@@ -35,7 +35,7 @@ function Header() {
                     <div className="relative flex h-16 items-center justify-between">
                         {/* left side */}
                         <div className="flex-shrink-0">
-                            <h1 className="text-3xl font-bold text-indigo-500">Expanse Tracker</h1>
+                            <h1 className="text-lg font-bold text-gray-600">RXpense.</h1>
                         </div>
 
                         {/* right side */}
