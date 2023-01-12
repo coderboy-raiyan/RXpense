@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const transitionSchema = mongoose.Schema(
+const transectionSchema = mongoose.Schema(
     {
         amount: {
             type: Number,
@@ -24,6 +24,6 @@ const transitionSchema = mongoose.Schema(
     { timestamps: true },
 );
 
-const Transition = mongoose.model('transition', transitionSchema);
+const Transection = mongoose.model('transection', transectionSchema);
 
-module.exports = Transition;
+module.exports = Transection;
