@@ -29,8 +29,8 @@ function Header() {
     }
 
     return (
-        <header>
-            <nav className="border-general sticky top-0 z-40 border-b bg-slate-50/60 backdrop-blur-2xl transition-colors duration-500">
+        <header className="sticky top-0 z-40">
+            <nav className="border-general  border-b bg-slate-50/60 backdrop-blur-2xl transition-colors duration-500">
                 <div className="container lg:mx-auto lg:max-w-6xl">
                     <div className="relative flex h-16 items-center justify-between">
                         {/* left side */}
@@ -57,15 +57,20 @@ function Header() {
                             )}
 
                             {auth.email && (
-                                <li>
-                                    <button
-                                        className="rounded-xl bg-gray-700 py-2 px-4 text-white"
-                                        onClick={logout}
-                                        type="button"
-                                    >
-                                        Logout
-                                    </button>
-                                </li>
+                                <>
+                                    <li>
+                                        <Link to="/dashboard">Dashboard</Link>
+                                    </li>
+                                    <li>
+                                        <button
+                                            className="rounded-xl bg-gray-700 py-2 px-4 text-white"
+                                            onClick={logout}
+                                            type="button"
+                                        >
+                                            Logout
+                                        </button>
+                                    </li>
+                                </>
                             )}
                         </ul>
                     </div>
