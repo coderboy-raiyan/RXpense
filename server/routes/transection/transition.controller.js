@@ -15,7 +15,8 @@ const getAllTransition = createAsyncError(async (req, res) => {
 // @access Add Transection
 
 const addTransition = createAsyncError(async (req, res) => {
-    const addedTransection = new Transection(req.body);
+    const usersData = { ...req.body, amount: +req.body.amount };
+    const addedTransection = new Transection(usersData);
     await addedTransection.save();
     res.status(200).json({ success: true, transection: addedTransection });
 });
