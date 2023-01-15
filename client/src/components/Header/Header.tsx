@@ -29,7 +29,7 @@ function Header() {
     }
 
     return (
-        <header className="sticky top-0 z-40">
+        <header className="sticky top-0 z-[100]">
             <nav className="border-general  border-b bg-slate-50/60 backdrop-blur-2xl transition-colors duration-500">
                 <div className="container lg:mx-auto lg:max-w-6xl">
                     <div className="relative flex h-16 items-center justify-between">
