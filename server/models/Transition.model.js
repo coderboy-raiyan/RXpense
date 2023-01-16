@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const transectionSchema = mongoose.Schema(
     {
         amount: {
-            type: Number,
+            type: String,
             required: [true, 'Amount is required'],
         },
         userId: {

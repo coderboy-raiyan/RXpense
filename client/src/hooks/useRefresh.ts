@@ -1,8 +1,11 @@
+import { useLocation, useNavigate } from "react-router-dom";
 import httpAuthService from "services/http.authServices";
 import useAuth from "./useAuth";
 
 function useRefresh() {
     const { setAuth, auth } = useAuth();
+    const location = useLocation();
+    const navigate = useNavigate();
 
     async function refresh() {
         try {
@@ -13,6 +16,7 @@ function useRefresh() {
             if (auth?.email) {
                 await httpAuthService.logout();
                 setAuth({});
+                navigate("/login", { state: { from: location }, replace: true });
             }
         }
     }

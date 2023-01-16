@@ -18,11 +18,10 @@ function verifyJwt(req, res, next) {
         if (error) {
             return res.status(403).json({ success: false, message: 'Forbidden' });
         }
-        const findUser = User.findOne({ _id: verified._id });
-
-        req.user = findUser;
-
-        next();
+        User.findOne({ _id: verified._id }).then((foundUser) => {
+            req.user = foundUser;
+            next();
+        });
     });
 }
 module.exports = verifyJwt;

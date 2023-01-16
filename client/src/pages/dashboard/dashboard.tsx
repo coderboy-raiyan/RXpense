@@ -1,8 +1,9 @@
 import LoadingButton from "components/Button/LoadingButton";
 import useAuth from "hooks/useAuth";
+import useAxiosPrivate from "hooks/useAxiosPrivate";
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
-import httpTransectionService from "../../services/http.transection";
+
 import DashboardModal from "./DashboardModal";
 
 const transectionCategories = [
@@ -36,6 +37,7 @@ function Dashboard() {
     const [isOpen, setIsOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const { auth } = useAuth();
+    const { httpTransectionService } = useAxiosPrivate();
 
     const [usersData, setUsersData] = useState<IAddTransectionDataTypes>({
         amount: "",
