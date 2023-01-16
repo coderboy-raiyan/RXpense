@@ -5,6 +5,12 @@ const instance = axios.create({
     withCredentials: true,
 });
 
+// instance.interceptors.request.use((config: any) => {
+//     const token = localStorage.getItem("token");
+//     config.headers.Authorization = token ? `Bearer ${token}` : "";
+//     return config;
+// });
+
 class HttpServices {
     async get(url: string, config?: any) {
         const response = await instance.get(url, config);

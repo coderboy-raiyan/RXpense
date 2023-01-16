@@ -1,4 +1,8 @@
+import LoadingButton from "components/Button/LoadingButton";
+import useAuth from "hooks/useAuth";
 import React, { useState } from "react";
+import { toast } from "react-hot-toast";
+import httpTransectionService from "../../services/http.transection";
 import DashboardModal from "./DashboardModal";
 
 const transectionCategories = [
@@ -19,9 +23,21 @@ const transectionCategories = [
     "Fees",
 ];
 
+export interface IAddTransectionDataTypes {
+    amount: string;
+    type: string;
+    category: string;
+    description: string;
+    reference: string;
+    date: string;
+}
+
 function Dashboard() {
     const [isOpen, setIsOpen] = useState(false);
-    const [usersData, setUsersData] = useState({
+    const [loading, setLoading] = useState(false);
+    const { auth } = useAuth();
+
+    const [usersData, setUsersData] = useState<IAddTransectionDataTypes>({
         amount: "",
         type: "",
         category: "",
@@ -43,7 +59,23 @@ function Dashboard() {
 
     async function handelSave(e: React.FormEvent) {
         e.preventDefault();
-        console.log(usersData);
+        setLoading(true);
+        try {
+            const response = await httpTransectionService.addTransection(usersData, {
+                headers: {
+                    Authorization: `Bearer ${auth?.accessToken}`,
+                },
+            });
+            if (response.success) {
+                setIsOpen(false);
+            }
+
+            toast.success("Transection has been created!");
+        } catch (error) {
+            console.log(error);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -151,12 +183,20 @@ function Dashboard() {
 
                     {/* buttons */}
                     <div>
-                        <button
-                            type="submit"
-                            className="ml-auto block rounded-lg bg-gray-800 py-2 px-6 text-sm text-white"
-                        >
-                            Save
-                        </button>
+                        {loading ? (
+                            <LoadingButton
+                                text="Please wait..."
+                                styles="ml-auto block rounded-lg bg-gray-800 py-2 px-6 text-sm text-white"
+                            />
+                        ) : (
+                            <button
+                                disabled={loading}
+                                type="submit"
+                                className="ml-auto block rounded-lg bg-gray-800 py-2 px-6 text-sm text-white"
+                            >
+                                Save
+                            </button>
+                        )}
                     </div>
                 </form>
             </DashboardModal>

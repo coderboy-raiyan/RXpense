@@ -5,6 +5,10 @@ async function verifyJwt(req, res, next) {
     try {
         const authHeader = req.headers.authorization || req.headers.Authorization;
 
+        if (!authHeader) {
+            return res.status(404).json({ message: 'headers not found!!' });
+        }
+
         if (!authHeader.startsWith('Bearer ')) {
             return res.status(401).json({ success: false, message: 'UnAuthorized' });
         }
@@ -19,7 +23,7 @@ async function verifyJwt(req, res, next) {
 
         const findUser = await User.findOne({ _id: verified._id });
 
-        req.user = findUser._id;
+        req.user = findUser;
     } catch (error) {
         console.log(error);
     }
