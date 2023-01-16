@@ -7,7 +7,7 @@ const transectionSchema = mongoose.Schema(
             required: [true, 'Amount is required'],
         },
         userId: {
-            type: mongoose.Schema.Types.ObjectId,
+            type: mongoose.Types.ObjectId,
             ref: 'User',
         },
         type: {

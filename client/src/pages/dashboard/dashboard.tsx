@@ -1,7 +1,8 @@
+/* eslint-disable no-unused-expressions */
 import LoadingButton from "components/Button/LoadingButton";
 import useAuth from "hooks/useAuth";
 import useAxiosPrivate from "hooks/useAxiosPrivate";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
 import DashboardModal from "./DashboardModal";
@@ -38,6 +39,7 @@ function Dashboard() {
     const [loading, setLoading] = useState(false);
     const { auth } = useAuth();
     const { httpTransectionService } = useAxiosPrivate();
+    const [transections, setTransections] = useState([]);
 
     const [usersData, setUsersData] = useState<IAddTransectionDataTypes>({
         amount: "",
@@ -80,6 +82,30 @@ function Dashboard() {
             setLoading(false);
         }
     }
+
+    // Get Transections
+    useEffect(() => {
+        let isMounted = true;
+        async function getAllTransections() {
+            try {
+                const response = await httpTransectionService.getTransections({
+                    headers: {
+                        Authorization: `Bearer ${auth?.accessToken}`,
+                    },
+                });
+                console.log(response.transections);
+                isMounted && setTransections(response?.transections);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        if (auth?.email) {
+            getAllTransections();
+        }
+        return () => {
+            isMounted = false;
+        };
+    }, [auth]);
 
     return (
         <section>
