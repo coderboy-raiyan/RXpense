@@ -6,7 +6,7 @@ async function verifyJwt(req, res, next) {
         const authHeader = req.headers.authorization || req.headers.Authorization;
 
         if (!authHeader) {
-            return res.status(404).json({ message: 'headers not found!!' });
+            return res.status(404).json({ message: 'Authorization headers not found!!' });
         }
 
         if (!authHeader.startsWith('Bearer ')) {

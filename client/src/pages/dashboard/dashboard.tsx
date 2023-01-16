@@ -73,6 +73,7 @@ function Dashboard() {
             toast.success("Transection has been created!");
         } catch (error) {
             console.log(error);
+            toast.error("Failed to add Transection!!");
         } finally {
             setLoading(false);
         }
@@ -83,7 +84,6 @@ function Dashboard() {
             <div className="mx-auto my-4 lg:max-w-6xl">
                 {/* Filters */}
                 <div className="flex items-center justify-between">
-                    <div>Range Filters</div>
                     <div>
                         <button
                             onClick={() => setIsOpen(true)}
@@ -93,6 +93,7 @@ function Dashboard() {
                             Add new
                         </button>
                     </div>
+                    <div>Range Filters</div>
                 </div>
                 {/* Content */}
                 <div className="content">Content</div>
