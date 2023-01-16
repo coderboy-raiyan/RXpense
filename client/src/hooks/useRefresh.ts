@@ -2,7 +2,7 @@ import httpAuthService from "services/http.authServices";
 import useAuth from "./useAuth";
 
 function useRefresh() {
-    const { setAuth } = useAuth();
+    const { setAuth, auth } = useAuth();
 
     async function refresh() {
         try {
@@ -10,7 +10,10 @@ function useRefresh() {
             setAuth(response);
             return response?.accessToken;
         } catch (error) {
-            console.log(error);
+            if (auth?.email) {
+                await httpAuthService.logout();
+                setAuth({});
+            }
         }
     }
 

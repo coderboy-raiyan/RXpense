@@ -51,7 +51,8 @@
         "react/no-array-index-key": 0,
         "react/require-default-props": 0,
         "consistent-return": 0,
-        "no-underscore-dangle": 0
+        "no-underscore-dangle": 0,
+        "no-param-reassign": 0
     },
     "settings": {
         "import/resolver": {

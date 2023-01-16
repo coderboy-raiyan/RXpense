@@ -4,12 +4,16 @@ function refreshToken(payload) {
     return jwt.sign({ _id: payload }, process.env.REFRESH_TOKEN_SECRET, { expiresIn: '7d' });
 }
 function accessToken(payload) {
-    return jwt.sign({ _id: payload }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
+    return jwt.sign({ _id: payload }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '24h' });
 }
 
-async function verifyJwtToken(token, secret) {
-    const isVerified = await jwt.verify(token, secret);
-    return isVerified;
+function verifyJwtToken(token, secret) {
+    return jwt.verify(token, secret, (error, isVerified) => {
+        if (error) {
+            return Promise.reject(error);
+        }
+        return isVerified;
+    });
 }
 
 module.exports = { accessToken, refreshToken, verifyJwtToken };

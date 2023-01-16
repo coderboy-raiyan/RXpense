@@ -1,7 +1,11 @@
 import Banner from "./Banner";
 
 function Home() {
-    return <Banner />;
+    return (
+        <>
+            <Banner />
+        </>
+    );
 }
 
 export default Home;

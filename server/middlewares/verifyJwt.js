@@ -1,32 +1,28 @@
 const jwt = require('jsonwebtoken');
 const User = require('../models/User.model');
 
-async function verifyJwt(req, res, next) {
-    try {
-        const authHeader = req.headers.authorization || req.headers.Authorization;
+function verifyJwt(req, res, next) {
+    const authHeader = req.headers.authorization || req.headers.Authorization;
 
-        if (!authHeader) {
-            return res.status(404).json({ message: 'Authorization headers not found!!' });
-        }
+    if (!authHeader) {
+        return res.status(404).json({ message: 'Authorization headers not found!!' });
+    }
 
-        if (!authHeader.startsWith('Bearer ')) {
-            return res.status(401).json({ success: false, message: 'UnAuthorized' });
-        }
+    if (!authHeader.startsWith('Bearer ')) {
+        return res.status(401).json({ success: false, message: 'UnAuthorized' });
+    }
 
-        const token = authHeader.split(' ')[1];
+    const token = authHeader.split(' ')[1];
 
-        const verified = await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-
-        if (!verified) {
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (error, verified) => {
+        if (error) {
             return res.status(403).json({ success: false, message: 'Forbidden' });
         }
-
-        const findUser = await User.findOne({ _id: verified._id });
+        const findUser = User.findOne({ _id: verified._id });
 
         req.user = findUser;
-    } catch (error) {
-        console.log(error);
-    }
-    next();
+
+        next();
+    });
 }
 module.exports = verifyJwt;
