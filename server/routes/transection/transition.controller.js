@@ -19,6 +19,7 @@ const getAllTransition = createAsyncError(async (req, res) => {
 
 const addTransition = createAsyncError(async (req, res) => {
     const usersData = { ...req.body, userId: req?.user?._id };
+    console.log(usersData);
     const addedTransection = new Transection(usersData);
     await addedTransection.save();
     res.status(200).json({ success: true, transection: addedTransection });

@@ -8,6 +8,7 @@ import { toast } from "react-hot-toast";
 import { BsPlusLg } from "react-icons/bs";
 
 import DashboardModal from "./DashboardModal";
+import DashboardTable from "./DashboardTable";
 
 const transectionCategories = [
     "Salary",
@@ -42,6 +43,7 @@ function Dashboard() {
     const { auth } = useAuth();
     const { httpTransectionService } = useAxiosPrivate();
     const [transections, setTransections] = useState([]);
+    const [tableHeadData, setTableHeadData] = useState({});
 
     const [usersData, setUsersData] = useState<IAddTransectionDataTypes>({
         amount: "",
@@ -51,6 +53,8 @@ function Dashboard() {
         reference: "",
         date: "",
     });
+
+    console.log(usersData);
 
     function handleInputChange(
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -67,6 +71,14 @@ function Dashboard() {
         e.preventDefault();
         if (isNaN(usersData.amount)) {
             toast.error("Amount must be a valid number");
+            return;
+        }
+        if (!usersData.type) {
+            toast.error("Please select a expense type");
+            return;
+        }
+        if (!usersData.type) {
+            toast.error("Please select a expense category");
             return;
         }
         setLoading(true);
@@ -100,6 +112,17 @@ function Dashboard() {
                     },
                 });
                 isMounted && setTransections(response?.transections);
+                setTableHeadData(
+                    Object.keys(response?.transections[0]).filter(
+                        (value) =>
+                            value !== "_id" &&
+                            value !== "reference" &&
+                            value !== "userId" &&
+                            value !== "createdAt" &&
+                            value !== "updatedAt" &&
+                            value !== "__v"
+                    )
+                );
             } catch (error) {
                 console.log(error);
             }
@@ -112,7 +135,7 @@ function Dashboard() {
         };
     }, [auth, loading]);
 
-    console.log(transections);
+    console.log(tableHeadData);
 
     return (
         <section>
@@ -132,7 +155,23 @@ function Dashboard() {
                 </div>
                 <hr className="my-4" />
                 {/* Content */}
-                <div className="content">Content</div>
+                <div className="content mt-10">
+                    {transections.length > 0 ? (
+                        <>
+                            <h1 className="mb-4 text-center text-2xl font-semibold text-indigo-600 drop-shadow">
+                                Expenses Table
+                            </h1>
+                            <DashboardTable
+                                tableHeadData={tableHeadData}
+                                transections={transections}
+                            />
+                        </>
+                    ) : (
+                        <p className="mt-14 text-center text-3xl font-semibold text-gray-300">
+                            Add your first expense
+                        </p>
+                    )}
+                </div>
             </div>
             {/* Add Transection Modal */}
             <DashboardModal title="Add Transection" isOpen={isOpen} setIsOpen={setIsOpen}>
@@ -160,8 +199,9 @@ function Dashboard() {
                             onChange={handleInputChange}
                             id="type"
                         >
-                            <option value="income">Income</option>
+                            <option value="">Select</option>
                             <option value="expense">Expense</option>
+                            <option value="income">Income</option>
                         </select>
                     </label>
 
@@ -174,9 +214,12 @@ function Dashboard() {
                             id="category"
                         >
                             {transectionCategories.map((cate, i) => (
-                                <option key={i} value={cate}>
-                                    {cate}
-                                </option>
+                                <>
+                                    <option value="">Select</option>
+                                    <option key={i} value={cate}>
+                                        {cate}
+                                    </option>
+                                </>
                             ))}
                         </select>
                     </label>
