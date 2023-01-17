@@ -1,9 +1,11 @@
+/* eslint-disable no-restricted-globals */
 /* eslint-disable no-unused-expressions */
 import LoadingButton from "components/Button/LoadingButton";
 import useAuth from "hooks/useAuth";
 import useAxiosPrivate from "hooks/useAxiosPrivate";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
+import { BsPlusLg } from "react-icons/bs";
 
 import DashboardModal from "./DashboardModal";
 
@@ -26,7 +28,7 @@ const transectionCategories = [
 ];
 
 export interface IAddTransectionDataTypes {
-    amount: string;
+    amount: string | number | any;
     type: string;
     category: string;
     description: string;
@@ -63,6 +65,10 @@ function Dashboard() {
 
     async function handelSave(e: React.FormEvent) {
         e.preventDefault();
+        if (isNaN(usersData.amount)) {
+            toast.error("Amount must be a valid number");
+            return;
+        }
         setLoading(true);
         try {
             const response = await httpTransectionService.addTransection(usersData, {
@@ -93,7 +99,6 @@ function Dashboard() {
                         Authorization: `Bearer ${auth?.accessToken}`,
                     },
                 });
-                console.log(response.transections);
                 isMounted && setTransections(response?.transections);
             } catch (error) {
                 console.log(error);
@@ -105,24 +110,27 @@ function Dashboard() {
         return () => {
             isMounted = false;
         };
-    }, [auth]);
+    }, [auth, loading]);
+
+    console.log(transections);
 
     return (
         <section>
             <div className="mx-auto my-4 lg:max-w-6xl">
                 {/* Filters */}
                 <div className="flex items-center justify-between">
+                    <div>Range Filters</div>
                     <div>
                         <button
                             onClick={() => setIsOpen(true)}
-                            className="rounded-lg bg-indigo-600 py-2 px-6 text-sm text-white"
+                            className="flex items-center rounded-lg border-2 border-indigo-600 bg-indigo-600 py-3 px-6 text-lg text-white shadow-lg transition-all hover:bg-white hover:text-indigo-600"
                             type="button"
                         >
-                            Add new
+                            Add new <BsPlusLg className="ml-2" />
                         </button>
                     </div>
-                    <div>Range Filters</div>
                 </div>
+                <hr className="my-4" />
                 {/* Content */}
                 <div className="content">Content</div>
             </div>

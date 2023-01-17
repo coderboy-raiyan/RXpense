@@ -6,7 +6,10 @@ const createAsyncError = require('../../middlewares/createAsyncError');
 // @access Get All Transection
 
 const getAllTransition = createAsyncError(async (req, res) => {
-    const transection = await Transection.find({ userId: req?.user?._id });
+    const transection = await Transection.find({ userId: req?.user?._id }).populate(
+        'userId',
+        'name email',
+    );
     res.status(200).json({ success: true, transections: transection });
 });
 
