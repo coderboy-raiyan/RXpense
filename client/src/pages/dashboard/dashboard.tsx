@@ -107,7 +107,7 @@ function Dashboard() {
         let isMounted = true;
         async function getAllTransections() {
             try {
-                const response = await httpTransectionService.getTransections(frequency, {
+                const response = await httpTransectionService.getTransections(frequency, type, {
                     headers: {
                         Authorization: `Bearer ${auth?.accessToken}`,
                     },
@@ -134,24 +134,39 @@ function Dashboard() {
         return () => {
             isMounted = false;
         };
-    }, [auth, loading, frequency]);
+    }, [auth, loading, frequency, type]);
 
     return (
         <section>
             <div className="mx-auto my-4 lg:max-w-6xl">
                 {/* Filters */}
                 <div className="flex items-center justify-between">
-                    <div className="space-y-2">
-                        <h3 className="text-sm">Select Frequency</h3>
-                        <select
-                            className="rounded text-sm text-gray-500"
-                            onChange={(e) => setFrequency(e.target.value)}
-                        >
-                            <option value="7">Last 1 week</option>
-                            <option value="30">Last 1 Month</option>
-                            <option value="365">Last 1 Year</option>
-                            <option value="custom">custom</option>
-                        </select>
+                    <div className="flex items-center space-x-20">
+                        {/* Frequency Filters */}
+                        <div className="space-y-2">
+                            <h3 className="text-sm">Select Frequency</h3>
+                            <select
+                                className="rounded text-sm text-gray-500"
+                                onChange={(e) => setFrequency(e.target.value)}
+                            >
+                                <option value="7">Last 1 week</option>
+                                <option value="30">Last 1 Month</option>
+                                <option value="365">Last 1 Year</option>
+                                <option value="custom">custom</option>
+                            </select>
+                        </div>
+                        {/* Type filters */}
+                        <div className="space-y-2">
+                            <h3 className="text-sm">Select Expense Type</h3>
+                            <select
+                                className="rounded text-sm text-gray-500"
+                                onChange={(e) => setType(e.target.value)}
+                            >
+                                <option value="all">All</option>
+                                <option value="expense">Expense</option>
+                                <option value="income">Income</option>
+                            </select>
+                        </div>
                     </div>
                     <div>
                         <button

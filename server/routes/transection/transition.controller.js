@@ -7,13 +7,14 @@ const createAsyncError = require('../../middlewares/createAsyncError');
 // @access Get All Transection
 
 const getAllTransition = createAsyncError(async (req, res) => {
-    const { frequency } = req.params;
+    const { frequency, type } = req.query;
 
     const transection = await Transection.find({
         userId: req?.user?._id,
         date: {
             $gt: moment().subtract(Number(frequency), 'd').toDate(),
         },
+        ...(type !== 'all' && { type }),
     }).populate('userId', 'name email');
 
     return res.status(200).json({ success: true, transections: transection });
