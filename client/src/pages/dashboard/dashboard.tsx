@@ -24,6 +24,7 @@ const transectionCategories = [
     "Buy new car",
     "Bills",
     "Fees",
+    "Others add in Reference",
 ];
 
 export interface IAddTransectionDataTypes {
@@ -43,6 +44,7 @@ function Dashboard() {
     const [transections, setTransections] = useState([]);
     const [tableHeadData, setTableHeadData] = useState({});
     const [frequency, setFrequency] = useState("7");
+    const [type, setType] = useState("all");
 
     const [usersData, setUsersData] = useState<IAddTransectionDataTypes>({
         amount: "",

@@ -1,3 +1,6 @@
+import Currency from "react-currency-formatter";
+import Moment from "react-moment";
+
 function DashboardTable({
     tableHeadData,
     transections,
@@ -37,10 +40,27 @@ function DashboardTable({
                                 {transections?.map((val: any, i: any) => (
                                     <tr key={i} className="border-b bg-gray-100">
                                         <td className="px-6 py-4 text-xs font-medium text-gray-500">
-                                            {val?.amount}
+                                            <span
+                                                className={`${
+                                                    val.type === "expense"
+                                                        ? "text-[#B74749]"
+                                                        : "text-[#2E6115]"
+                                                }`}
+                                            >
+                                                {val.type === "expense" ? "-" : "+"}${" "}
+                                                <Currency quantity={val?.amount} currency="BDT" />
+                                            </span>
                                         </td>
                                         <td className="px-6 py-4 text-xs font-medium text-gray-500">
-                                            {val?.type}
+                                            <span
+                                                className={`rounded-full py-1 px-2 text-white ${
+                                                    val.type === "expense"
+                                                        ? "bg-[#B74749]"
+                                                        : "bg-[#2E6115]"
+                                                }`}
+                                            >
+                                                {val?.type}
+                                            </span>
                                         </td>
                                         <td className="px-6 py-4 text-xs font-medium text-gray-500">
                                             {val?.category}
@@ -49,7 +69,7 @@ function DashboardTable({
                                             {val?.description}
                                         </td>
                                         <td className="px-6 py-4 text-xs font-medium text-gray-500">
-                                            {val?.date}
+                                            <Moment fromNow>{new Date(val?.date)}</Moment>
                                         </td>
                                         <td className="px-6 py-4 text-xs font-medium text-gray-500">
                                             Button
