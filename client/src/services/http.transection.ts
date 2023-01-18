@@ -2,8 +2,8 @@ import { IAddTransectionDataTypes } from "pages/dashboard/dashboard";
 import httpPrivateService from "./httpPrivateServices";
 
 class HttpTransection {
-    async getTransections(config: any) {
-        const { data } = await httpPrivateService.get(`/transections`, config);
+    async getTransections(frequency: string, config: any) {
+        const { data } = await httpPrivateService.get(`/transections/${frequency}`, config);
         return data;
     }
 

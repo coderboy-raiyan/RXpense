@@ -1,5 +1,3 @@
-/* eslint-disable no-restricted-globals */
-/* eslint-disable no-unused-expressions */
 import LoadingButton from "components/Button/LoadingButton";
 import useAuth from "hooks/useAuth";
 import useAxiosPrivate from "hooks/useAxiosPrivate";
@@ -44,6 +42,7 @@ function Dashboard() {
     const { httpTransectionService } = useAxiosPrivate();
     const [transections, setTransections] = useState([]);
     const [tableHeadData, setTableHeadData] = useState({});
+    const [frequency, setFrequency] = useState("7");
 
     const [usersData, setUsersData] = useState<IAddTransectionDataTypes>({
         amount: "",
@@ -54,8 +53,7 @@ function Dashboard() {
         date: "",
     });
 
-    console.log(usersData);
-
+    // Handel Input Change
     function handleInputChange(
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
     ) {
@@ -67,6 +65,7 @@ function Dashboard() {
         }));
     }
 
+    // Handel The form Submit
     async function handelSave(e: React.FormEvent) {
         e.preventDefault();
         if (isNaN(usersData.amount)) {
@@ -106,7 +105,7 @@ function Dashboard() {
         let isMounted = true;
         async function getAllTransections() {
             try {
-                const response = await httpTransectionService.getTransections({
+                const response = await httpTransectionService.getTransections(frequency, {
                     headers: {
                         Authorization: `Bearer ${auth?.accessToken}`,
                     },
@@ -133,16 +132,25 @@ function Dashboard() {
         return () => {
             isMounted = false;
         };
-    }, [auth, loading]);
-
-    console.log(tableHeadData);
+    }, [auth, loading, frequency]);
 
     return (
         <section>
             <div className="mx-auto my-4 lg:max-w-6xl">
                 {/* Filters */}
                 <div className="flex items-center justify-between">
-                    <div>Range Filters</div>
+                    <div className="space-y-2">
+                        <h3 className="text-sm">Select Frequency</h3>
+                        <select
+                            className="rounded text-sm text-gray-500"
+                            onChange={(e) => setFrequency(e.target.value)}
+                        >
+                            <option value="7">Last 1 week</option>
+                            <option value="30">Last 1 Month</option>
+                            <option value="365">Last 1 Year</option>
+                            <option value="custom">custom</option>
+                        </select>
+                    </div>
                     <div>
                         <button
                             onClick={() => setIsOpen(true)}
@@ -213,9 +221,9 @@ function Dashboard() {
                             onChange={handleInputChange}
                             id="category"
                         >
+                            <option value="">Select</option>
                             {transectionCategories.map((cate, i) => (
                                 <>
-                                    <option value="">Select</option>
                                     <option key={i} value={cate}>
                                         {cate}
                                     </option>
