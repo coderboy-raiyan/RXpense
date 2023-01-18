@@ -54,6 +54,7 @@
         "no-underscore-dangle": 0,
         "no-restricted-globals": 0,
         "no-unused-expressions": 0,
+        "no-unsafe-optional-chaining": 0,
         "no-param-reassign": 0
     },
     "settings": {

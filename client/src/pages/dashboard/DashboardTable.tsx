@@ -1,5 +1,9 @@
+/* eslint-disable no-nested-ternary */
+import { useEffect, useState } from "react";
 import Currency from "react-currency-formatter";
 import Moment from "react-moment";
+
+import findMyLocation from "utils/FindMyLocation";
 
 function DashboardTable({
     tableHeadData,
@@ -8,6 +12,12 @@ function DashboardTable({
     tableHeadData: any;
     transections: any;
 }) {
+    const [currentLocation, setCurrentLocation] = useState<any>("");
+
+    useEffect(() => {
+        findMyLocation().then((data: any) => setCurrentLocation(data));
+    }, []);
+
     return (
         <div className="flex flex-col">
             <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -47,8 +57,17 @@ function DashboardTable({
                                                         : "text-[#2E6115]"
                                                 }`}
                                             >
-                                                {val.type === "expense" ? "-" : "+"}${" "}
-                                                <Currency quantity={val?.amount} currency="BDT" />
+                                                {val.type === "expense" ? "-" : "+"}
+                                                <Currency
+                                                    quantity={+val?.amount}
+                                                    currency={
+                                                        currentLocation?.countryCode
+                                                            ? currentLocation.countryCode === "BD"
+                                                                ? "BDT"
+                                                                : "USD"
+                                                            : "USD"
+                                                    }
+                                                />
                                             </span>
                                         </td>
                                         <td className="px-6 py-4 text-xs font-medium text-gray-500">
