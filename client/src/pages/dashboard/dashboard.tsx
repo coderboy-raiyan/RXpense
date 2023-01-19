@@ -1,4 +1,3 @@
-/* eslint-disable no-nested-ternary */
 import LoadingButton from "components/Button/LoadingButton";
 import useAuth from "hooks/useAuth";
 import useAxiosPrivate from "hooks/useAxiosPrivate";
@@ -50,8 +49,12 @@ function Dashboard() {
     const [frequency, setFrequency] = useState("7");
     const [type, setType] = useState("all");
     const [isGetTransectionLoading, setIsGetTransectionLoading] = useState(false);
-    const [viewData, setViewData] = useState("table");
+    const [viewData, setViewData] = useState(localStorage.getItem("viewData") || "table");
     const [currentLocation, setCurrentLocation] = useState<any>("");
+
+    useEffect(() => {
+        localStorage.setItem("viewData", viewData);
+    }, [viewData]);
 
     useEffect(() => {
         findMyLocation().then((data: any) => setCurrentLocation(data));
@@ -106,7 +109,6 @@ function Dashboard() {
 
             toast.success("Transection has been created!");
         } catch (error) {
-            console.log(error);
             toast.error("Failed to add Transection!!");
         } finally {
             setLoading(false);
@@ -235,7 +237,10 @@ function Dashboard() {
                                         transections={transections}
                                     />
                                 ) : (
-                                    <Analytics transections={transections} />
+                                    <Analytics
+                                        currentLocation={currentLocation}
+                                        transections={transections}
+                                    />
                                 )
                             ) : (
                                 <p className="mt-14 text-center text-3xl font-semibold text-gray-300">
