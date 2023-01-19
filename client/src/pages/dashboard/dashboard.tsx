@@ -45,6 +45,7 @@ function Dashboard() {
     const [tableHeadData, setTableHeadData] = useState({});
     const [frequency, setFrequency] = useState("7");
     const [type, setType] = useState("all");
+    const [isGetTransectionLoading, setIsGetTransectionLoading] = useState(false);
 
     const [usersData, setUsersData] = useState<IAddTransectionDataTypes>({
         amount: "",
@@ -106,6 +107,7 @@ function Dashboard() {
     useEffect(() => {
         let isMounted = true;
         async function getAllTransections() {
+            setIsGetTransectionLoading(true);
             try {
                 const response = await httpTransectionService.getTransections(frequency, type, {
                     headers: {
@@ -125,7 +127,9 @@ function Dashboard() {
                     )
                 );
             } catch (error) {
-                console.log(error);
+                toast.error(`Couldn't get the Transections`);
+            } finally {
+                setIsGetTransectionLoading(false);
             }
         }
         if (auth?.email) {
@@ -186,10 +190,17 @@ function Dashboard() {
                             <h1 className="mb-4 text-center text-2xl font-semibold text-indigo-600 drop-shadow">
                                 Expenses Table
                             </h1>
-                            <DashboardTable
-                                tableHeadData={tableHeadData}
-                                transections={transections}
-                            />
+                            {isGetTransectionLoading ? (
+                                <LoadingButton
+                                    svg="w-16 h-16 text-indigo-500"
+                                    styles="mx-auto my-20"
+                                />
+                            ) : (
+                                <DashboardTable
+                                    tableHeadData={tableHeadData}
+                                    transections={transections}
+                                />
+                            )}
                         </>
                     ) : (
                         <p className="mt-14 text-center text-3xl font-semibold text-gray-300">

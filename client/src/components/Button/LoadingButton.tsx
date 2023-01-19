@@ -1,4 +1,4 @@
-function LoadingButton({ text, styles, svg }: { text: string; styles?: string; svg?: string }) {
+function LoadingButton({ text, styles, svg }: { text?: string; styles?: string; svg?: string }) {
     return (
         <button
             type="button"
