@@ -88,7 +88,9 @@ function DashboardTable({
                                             {val?.description}
                                         </td>
                                         <td className="px-6 py-4 text-xs font-medium text-gray-500">
-                                            <Moment fromNow>{new Date(val?.date)}</Moment>
+                                            <Moment format="D MMM YYYY" withTitle>
+                                                {new Date(val?.date)}
+                                            </Moment>
                                         </td>
                                         <td className="px-6 py-4 text-xs font-medium text-gray-500">
                                             Button
