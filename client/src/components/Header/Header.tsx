@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import useAuth from "hooks/useAuth";
@@ -28,7 +29,6 @@ function Header() {
             }
         } catch (error) {
             setAuth({});
-            console.log(error);
         }
     }
 
@@ -114,16 +114,22 @@ function Header() {
                                  } top-0 z-20 flex h-full w-full  flex-col items-center  justify-center space-y-16 bg-white px-4   text-2xl font-semibold  md:w-[450px] md:text-4xl`}
                     >
                         {url.map(({ name, path }, i: number) => (
-                            <li key={i}>
+                            <li onClick={() => setMenuOpen(!menuOpen)} key={i}>
                                 <Link to={path}>{name}</Link>
                             </li>
                         ))}
                         {!auth.email && (
                             <>
-                                <li className="rounded-xl bg-indigo-500 py-2 px-4 text-white">
+                                <li
+                                    onClick={() => setMenuOpen(!menuOpen)}
+                                    className="rounded-xl bg-indigo-500 py-2 px-4 text-white"
+                                >
                                     <Link to="/login">Sign In</Link>
                                 </li>
-                                <li className="rounded-xl bg-gray-800 py-2 px-4 text-white">
+                                <li
+                                    onClick={() => setMenuOpen(!menuOpen)}
+                                    className="rounded-xl bg-gray-800 py-2 px-4 text-white"
+                                >
                                     <Link to="/register">Sign Up</Link>
                                 </li>
                             </>
@@ -131,11 +137,11 @@ function Header() {
 
                         {auth.email && (
                             <>
-                                <li>
+                                <li onClick={() => setMenuOpen(!menuOpen)}>
                                     <Link to="/dashboard">Dashboard</Link>
                                 </li>
                                 <li className="font-bold">Welcome, {auth?.name}</li>
-                                <li>
+                                <li onClick={() => setMenuOpen(!menuOpen)}>
                                     <button
                                         className="rounded-xl bg-gray-700 py-2 px-4 text-white"
                                         onClick={logout}

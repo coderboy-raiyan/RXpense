@@ -13,7 +13,7 @@ function DashboardTable({
 }) {
     return (
         <div className="flex flex-col">
-            <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className="overflow-x-auto ">
                 <div className="py-2sm:px-6 inline-block min-w-full lg:px-8">
                     <div className="overflow-hidden drop-shadow-md">
                         <table className="min-w-full border">

@@ -226,9 +226,6 @@ function Dashboard() {
                         <LoadingButton svg="w-16 h-16 text-indigo-500" styles="mx-auto my-20" />
                     ) : (
                         <>
-                            {/* <h1 className="mb-4 text-center text-2xl font-semibold text-indigo-600 drop-shadow">
-                                Expenses Table
-                            </h1> */}
                             {transections.length > 0 ? (
                                 viewData === "table" ? (
                                     <DashboardTable
