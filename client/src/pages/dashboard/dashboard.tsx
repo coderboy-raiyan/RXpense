@@ -185,27 +185,24 @@ function Dashboard() {
                 <hr className="my-4" />
                 {/* Content */}
                 <div className="content mt-10">
-                    {transections.length > 0 ? (
+                    {isGetTransectionLoading ? (
+                        <LoadingButton svg="w-16 h-16 text-indigo-500" styles="mx-auto my-20" />
+                    ) : (
                         <>
                             <h1 className="mb-4 text-center text-2xl font-semibold text-indigo-600 drop-shadow">
                                 Expenses Table
                             </h1>
-                            {isGetTransectionLoading ? (
-                                <LoadingButton
-                                    svg="w-16 h-16 text-indigo-500"
-                                    styles="mx-auto my-20"
-                                />
-                            ) : (
+                            {transections.length > 0 ? (
                                 <DashboardTable
                                     tableHeadData={tableHeadData}
                                     transections={transections}
                                 />
+                            ) : (
+                                <p className="mt-14 text-center text-3xl font-semibold text-gray-300">
+                                    Add your first expense
+                                </p>
                             )}
                         </>
-                    ) : (
-                        <p className="mt-14 text-center text-3xl font-semibold text-gray-300">
-                            Add your first expense
-                        </p>
                     )}
                 </div>
             </div>

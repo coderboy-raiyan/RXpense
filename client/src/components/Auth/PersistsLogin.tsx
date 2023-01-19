@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-expressions */
+import LoadingButton from "components/Button/LoadingButton";
 import useAuth from "hooks/useAuth";
 import useRefresh from "hooks/useRefresh";
 import { useEffect, useState } from "react";
@@ -23,7 +24,18 @@ function PersistsLogin() {
         !auth?.accessToken ? verifyRefreshToken() : setLoading(false);
     }, []);
 
-    return <>{loading ? "Loading..." : <Outlet />}</>;
+    return (
+        <>
+            {loading ? (
+                <LoadingButton
+                    svg="w-16 h-screen flex justify-center items-center text-indigo-500"
+                    styles="mx-auto"
+                />
+            ) : (
+                <Outlet />
+            )}
+        </>
+    );
 }
 
 export default PersistsLogin;
