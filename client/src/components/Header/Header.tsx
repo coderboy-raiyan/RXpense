@@ -34,7 +34,7 @@ function Header() {
 
     return (
         <header className="border-general sticky top-0 z-[100] border-b">
-            <nav className=" mx-4  lg:mx-0 lg:bg-slate-50/60 lg:backdrop-blur-2xl lg:transition-colors lg:duration-500">
+            <nav className="mx-4 bg-slate-50">
                 <div className="container lg:mx-auto lg:max-w-6xl">
                     <div className="relative flex h-16 items-center justify-between">
                         {/* left side */}
