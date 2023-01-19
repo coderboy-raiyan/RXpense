@@ -156,13 +156,13 @@ function Dashboard() {
         <section>
             <div className="mx-auto my-4 lg:max-w-6xl">
                 {/* Filters */}
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-20">
+                <div className="mx-4 flex flex-col items-center justify-between lg:mx-0 lg:flex-row">
+                    <div className="mb-4 flex w-full flex-col items-center space-y-4 lg:mb-0 lg:w-[60%]  lg:flex-row lg:space-y-0 lg:space-x-20">
                         {/* Frequency Filters */}
-                        <div className="space-y-2">
+                        <div className="w-full space-y-2 lg:w-auto">
                             <h3 className="text-sm">Select Frequency</h3>
                             <select
-                                className="rounded text-sm text-gray-500"
+                                className="w-full rounded text-sm text-gray-500 lg:w-auto"
                                 onChange={(e) => setFrequency(e.target.value)}
                             >
                                 <option value="7">Last 1 week</option>
@@ -172,10 +172,10 @@ function Dashboard() {
                             </select>
                         </div>
                         {/* Type filters */}
-                        <div className="space-y-2">
+                        <div className="w-full space-y-2">
                             <h3 className="text-sm">Select Expense Type</h3>
                             <select
-                                className="rounded text-sm text-gray-500"
+                                className="w-full rounded text-sm text-gray-500 lg:w-auto"
                                 onChange={(e) => setType(e.target.value)}
                             >
                                 <option value="all">All</option>
@@ -185,7 +185,7 @@ function Dashboard() {
                         </div>
 
                         {/* ViewData Filters */}
-                        <div className="flex flex-col space-y-2">
+                        <div className="flex w-full flex-col space-y-2">
                             <h3>Select your view</h3>
                             <div className="flex justify-center space-x-4 rounded-lg border border-gray-400 py-2 px-4">
                                 <button
@@ -212,7 +212,7 @@ function Dashboard() {
                     <div>
                         <button
                             onClick={() => setIsOpen(true)}
-                            className="flex items-center rounded-lg border-2 border-indigo-600 bg-indigo-600 py-3 px-6 text-lg text-white shadow-lg transition-all hover:bg-white hover:text-indigo-600"
+                            className="flex items-center rounded-lg border-2 border-indigo-600 bg-indigo-600 py-3 px-2 text-sm text-white shadow-lg transition-all hover:bg-white hover:text-indigo-600 lg:px-6 lg:text-lg"
                             type="button"
                         >
                             Add new <BsPlusLg className="ml-2" />
@@ -221,7 +221,7 @@ function Dashboard() {
                 </div>
                 <hr className="my-4" />
                 {/* Content */}
-                <div className="content mt-10">
+                <div className="content mx-4 mt-10 lg:mx-0">
                     {isGetTransectionLoading ? (
                         <LoadingButton svg="w-16 h-16 text-indigo-500" styles="mx-auto my-20" />
                     ) : (
