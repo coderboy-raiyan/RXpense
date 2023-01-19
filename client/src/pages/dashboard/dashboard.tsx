@@ -1,9 +1,13 @@
+/* eslint-disable no-nested-ternary */
 import LoadingButton from "components/Button/LoadingButton";
 import useAuth from "hooks/useAuth";
 import useAxiosPrivate from "hooks/useAxiosPrivate";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { BsPlusLg } from "react-icons/bs";
+import { FaChartArea, FaListUl } from "react-icons/fa";
+import findMyLocation from "utils/FindMyLocation";
+import Analytics from "./Analytics";
 
 import DashboardModal from "./DashboardModal";
 import DashboardTable from "./DashboardTable";
@@ -46,6 +50,12 @@ function Dashboard() {
     const [frequency, setFrequency] = useState("7");
     const [type, setType] = useState("all");
     const [isGetTransectionLoading, setIsGetTransectionLoading] = useState(false);
+    const [viewData, setViewData] = useState("table");
+    const [currentLocation, setCurrentLocation] = useState<any>("");
+
+    useEffect(() => {
+        findMyLocation().then((data: any) => setCurrentLocation(data));
+    }, []);
 
     const [usersData, setUsersData] = useState<IAddTransectionDataTypes>({
         amount: "",
@@ -171,6 +181,31 @@ function Dashboard() {
                                 <option value="income">Income</option>
                             </select>
                         </div>
+
+                        {/* ViewData Filters */}
+                        <div className="flex flex-col space-y-2">
+                            <h3>Select your view</h3>
+                            <div className="flex justify-center space-x-4 rounded-lg border border-gray-400 py-2 px-4">
+                                <button
+                                    onClick={() => setViewData("table")}
+                                    className={`text-xl  ${
+                                        viewData === "table" ? "text-gray-800" : "text-gray-400"
+                                    }`}
+                                    type="button"
+                                >
+                                    <FaListUl />
+                                </button>
+                                <button
+                                    onClick={() => setViewData("analytics")}
+                                    className={`text-xl  ${
+                                        viewData === "analytics" ? "text-gray-800" : "text-gray-400"
+                                    }`}
+                                    type="button"
+                                >
+                                    <FaChartArea />
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     <div>
                         <button
@@ -193,10 +228,15 @@ function Dashboard() {
                                 Expenses Table
                             </h1>
                             {transections.length > 0 ? (
-                                <DashboardTable
-                                    tableHeadData={tableHeadData}
-                                    transections={transections}
-                                />
+                                viewData === "table" ? (
+                                    <DashboardTable
+                                        currentLocation={currentLocation}
+                                        tableHeadData={tableHeadData}
+                                        transections={transections}
+                                    />
+                                ) : (
+                                    <Analytics transections={transections} />
+                                )
                             ) : (
                                 <p className="mt-14 text-center text-3xl font-semibold text-gray-300">
                                     Add your first expense
@@ -219,7 +259,13 @@ function Dashboard() {
                             className="rounded border-gray-300 py-3 text-sm focus:outline-none focus:ring-0"
                             required
                             type="text"
-                            placeholder="example. 250 USD"
+                            placeholder={`${
+                                currentLocation?.countryCode
+                                    ? currentLocation?.countryCode === "BD"
+                                        ? "12,000 BDT"
+                                        : "5,000 USD"
+                                    : "5,000 USD"
+                            }`}
                             autoComplete="off"
                         />
                     </label>

@@ -1,23 +1,16 @@
 /* eslint-disable no-nested-ternary */
-import { useEffect, useState } from "react";
 import Currency from "react-currency-formatter";
 import Moment from "react-moment";
-
-import findMyLocation from "utils/FindMyLocation";
 
 function DashboardTable({
     tableHeadData,
     transections,
+    currentLocation,
 }: {
     tableHeadData: any;
     transections: any;
+    currentLocation: any;
 }) {
-    const [currentLocation, setCurrentLocation] = useState<any>("");
-
-    useEffect(() => {
-        findMyLocation().then((data: any) => setCurrentLocation(data));
-    }, []);
-
     return (
         <div className="flex flex-col">
             <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
