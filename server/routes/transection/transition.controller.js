@@ -15,7 +15,9 @@ const getAllTransition = createAsyncError(async (req, res) => {
             $gt: moment().subtract(Number(frequency), 'd').toDate(),
         },
         ...(type !== 'all' && { type }),
-    }).populate('userId', 'name email');
+    })
+        .populate('userId', 'name email')
+        .sort('-date');
 
     return res.status(200).json({ success: true, transections: transection });
 });
