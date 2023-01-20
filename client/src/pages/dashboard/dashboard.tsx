@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 import { BsPlusLg } from "react-icons/bs";
 import { FaChartArea, FaListUl } from "react-icons/fa";
+import Swal from "sweetalert2";
 import findMyLocation from "utils/FindMyLocation";
 import Analytics from "./Analytics";
 
@@ -121,6 +122,7 @@ function Dashboard() {
                     }
                 );
                 if (response.success) {
+                    setIsOpen(false);
                     setIsEditing(null);
                     toast.success("Transection has been updated!");
                 }
@@ -191,6 +193,37 @@ function Dashboard() {
         setIsOpen(true);
     }
 
+    function handelDelete(id: string) {
+        setLoading(true);
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                httpTransectionService
+                    .deleteTransection(id, {
+                        headers: {
+                            Authorization: `Bearer ${auth?.accessToken}`,
+                        },
+                    })
+                    .then(() => {
+                        Swal.fire("Deleted!", "Your file has been deleted.", "success");
+                    })
+                    .catch(() => {
+                        toast.error("Internal Server Error!!");
+                    })
+                    .finally(() => {
+                        setLoading(false);
+                    });
+            }
+        });
+    }
+
     return (
         <section>
             <div className="mx-auto my-4 lg:max-w-6xl">
@@ -224,7 +257,7 @@ function Dashboard() {
                         </div>
 
                         {/* ViewData Filters */}
-                        <div className="flex w-full flex-col space-y-2">
+                        <div className="mr-auto flex w-[40%] flex-col space-y-2 lg:ml-0 lg:w-full">
                             <h3>Select your view</h3>
                             <div className="flex justify-center space-x-4 rounded-lg border border-gray-400 py-2 px-4">
                                 <button
@@ -269,6 +302,7 @@ function Dashboard() {
                                 viewData === "table" ? (
                                     <DashboardTable
                                         handelEdit={handelEdit}
+                                        handelDelete={handelDelete}
                                         currentLocation={currentLocation}
                                         tableHeadData={tableHeadData}
                                         transections={transections}

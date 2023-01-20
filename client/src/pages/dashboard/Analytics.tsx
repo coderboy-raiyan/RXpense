@@ -32,14 +32,14 @@ function Analytics({ transections, currentLocation }: { transections: any; curre
                 {/* card Data */}
                 <div className="mx-auto w-full rounded-lg border border-gray-300 bg-gray-100 p-4 text-gray-500 drop-shadow-lg md:w-[70%] lg:w-[80%]">
                     <h3 className="text-center text-lg font-semibold text-cyan-600">
-                        Total transection : {totalTransections}
+                        Total transection count : {totalTransections}
                     </h3>
 
                     {/* Content */}
                     <div className="mt-4 flex justify-around">
                         <div className="w-2/5 space-y-2">
                             <h4 className="text-center text-[#398812]">
-                                Income : {totalIncomeTransections.length}
+                                Income count : {totalIncomeTransections.length}
                             </h4>
 
                             <CircularProgressbar
@@ -56,7 +56,7 @@ function Analytics({ transections, currentLocation }: { transections: any; curre
                         </div>
                         <div className="w-2/5 space-y-2">
                             <h4 className="text-center text-[#B74749]">
-                                Expense : {totalIncomeTransections.length}
+                                Expense count : {totalIncomeTransections.length}
                             </h4>
                             <CircularProgressbar
                                 value={Math.floor(totalExpensePercent)}

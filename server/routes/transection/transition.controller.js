@@ -35,9 +35,10 @@ const addTransition = createAsyncError(async (req, res) => {
 
     return res.status(200).json({ success: true, transection: addedTransection });
 });
+
 // @desc editTransection
-// @routes POST - /api/v1/transections/editTransection
-// @access Add Transection
+// @routes POST - /api/v1/transections/editTransection/:id
+// @access Edit Transection
 
 const editTransection = createAsyncError(async (req, res) => {
     const { id } = req.params;
@@ -48,5 +49,14 @@ const editTransection = createAsyncError(async (req, res) => {
         console.log(error);
     }
 });
+// @desc deleteTransection
+// @routes DELETE - /api/v1/transections/deleteTransection/:id
+// @access Delete and clear Transection
 
-module.exports = { getAllTransition, addTransition, editTransection };
+const deleteTransection = createAsyncError(async (req, res) => {
+    const { id } = req.params;
+    await Transection.findByIdAndDelete({ _id: id });
+    res.status(200).json({ success: true });
+});
+
+module.exports = { getAllTransition, addTransition, editTransection, deleteTransection };

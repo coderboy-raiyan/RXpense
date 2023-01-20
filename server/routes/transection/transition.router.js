@@ -1,9 +1,15 @@
 const transectionRouter = require('express').Router();
-const { addTransition, getAllTransition, editTransection } = require('./transition.controller');
+const {
+    addTransition,
+    getAllTransition,
+    editTransection,
+    deleteTransection,
+} = require('./transition.controller');
 const verifyJwt = require('../../middlewares/verifyJwt');
 
 transectionRouter.get('/', verifyJwt, getAllTransition);
 transectionRouter.post('/addTransection', verifyJwt, addTransition);
-transectionRouter.post('/editTransection/:id', verifyJwt, editTransection);
+transectionRouter.put('/editTransection/:id', verifyJwt, editTransection);
+transectionRouter.delete('/deleteTransection/:id', verifyJwt, deleteTransection);
 
 module.exports = transectionRouter;

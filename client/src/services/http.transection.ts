@@ -20,9 +20,17 @@ class HttpTransection {
     }
 
     async editTransection(payload: IAddTransectionDataTypes, id: string, config: any) {
-        const { data } = await httpPrivateService.post(
+        const { data } = await httpPrivateService.put(
             `/transections/editTransection/${id}`,
             payload,
+            config
+        );
+        return data;
+    }
+
+    async deleteTransection(id: string, config: any) {
+        const { data } = await httpPrivateService.delete(
+            `/transections/deleteTransection/${id}`,
             config
         );
         return data;

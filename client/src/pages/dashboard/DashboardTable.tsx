@@ -7,10 +7,13 @@ function DashboardTable({
     transections,
     currentLocation,
     handelEdit,
+    handelDelete,
 }: {
     tableHeadData: any;
     transections: any;
     currentLocation: any;
+    // eslint-disable-next-line no-unused-vars
+    handelDelete: (id: string) => void;
     // eslint-disable-next-line no-unused-vars
     handelEdit: (transection: any) => void;
 }) {
@@ -98,6 +101,7 @@ function DashboardTable({
                                                     Edit
                                                 </button>
                                                 <button
+                                                    onClick={() => handelDelete(val._id)}
                                                     className="rounded-full bg-red-200 py-1 px-4 text-red-700"
                                                     type="button"
                                                 >
