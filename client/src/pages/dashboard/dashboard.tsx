@@ -122,7 +122,6 @@ function Dashboard() {
                     }
                 );
                 if (response.success) {
-                    setIsOpen(false);
                     setIsEditing(null);
                     toast.success("Transection has been updated!");
                 }
@@ -139,6 +138,7 @@ function Dashboard() {
             toast.error("Failed to add Transection!!");
         } finally {
             setLoading(false);
+            setIsOpen(false);
         }
     }
 

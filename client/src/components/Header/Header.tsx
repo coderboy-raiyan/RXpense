@@ -39,7 +39,7 @@ function Header() {
                     <div className="relative flex h-16 items-center justify-between">
                         {/* left side */}
                         <div className="flex-shrink-0">
-                            <Link to="/" className="text-lg font-bold text-gray-600">
+                            <Link to="/" className="text-2xl font-bold text-gray-600">
                                 RXpense.
                             </Link>
                         </div>
@@ -89,7 +89,7 @@ function Header() {
 
                             {auth.email && (
                                 <>
-                                    <li>
+                                    <li className="animate-pulse">
                                         <Link to="/dashboard">Dashboard</Link>
                                     </li>
                                     <li className="font-bold">Welcome, {auth?.name}</li>
