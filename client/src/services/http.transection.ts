@@ -18,6 +18,15 @@ class HttpTransection {
         );
         return data;
     }
+
+    async editTransection(payload: IAddTransectionDataTypes, id: string, config: any) {
+        const { data } = await httpPrivateService.post(
+            `/transections/editTransection/${id}`,
+            payload,
+            config
+        );
+        return data;
+    }
 }
 
 const httpTransectionService = new HttpTransection();

@@ -3,7 +3,7 @@ const Transection = require('../../models/Transition.model');
 const createAsyncError = require('../../middlewares/createAsyncError');
 
 // @desc getAllTransition
-// @routes GET - /api/v1/auth/transections
+// @routes GET - /api/v1/transections
 // @access Get All Transection
 
 const getAllTransition = createAsyncError(async (req, res) => {
@@ -23,7 +23,7 @@ const getAllTransition = createAsyncError(async (req, res) => {
 });
 
 // @desc addTransition
-// @routes POST - /api/v1/auth/add-transection
+// @routes POST - /api/v1/transections/addTransection
 // @access Add Transection
 
 const addTransition = createAsyncError(async (req, res) => {
@@ -35,5 +35,18 @@ const addTransition = createAsyncError(async (req, res) => {
 
     return res.status(200).json({ success: true, transection: addedTransection });
 });
+// @desc editTransection
+// @routes POST - /api/v1/transections/editTransection
+// @access Add Transection
 
-module.exports = { getAllTransition, addTransition };
+const editTransection = createAsyncError(async (req, res) => {
+    const { id } = req.params;
+    try {
+        const updatedTransection = await Transection.findByIdAndUpdate({ _id: id }, req.body);
+        return res.status(200).json({ success: true, transection: updatedTransection });
+    } catch (error) {
+        console.log(error);
+    }
+});
+
+module.exports = { getAllTransition, addTransition, editTransection };

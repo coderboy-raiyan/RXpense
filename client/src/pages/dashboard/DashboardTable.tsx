@@ -6,10 +6,13 @@ function DashboardTable({
     tableHeadData,
     transections,
     currentLocation,
+    handelEdit,
 }: {
     tableHeadData: any;
     transections: any;
     currentLocation: any;
+    // eslint-disable-next-line no-unused-vars
+    handelEdit: (transection: any) => void;
 }) {
     return (
         <div className="flex flex-col">
@@ -86,7 +89,21 @@ function DashboardTable({
                                             </Moment>
                                         </td>
                                         <td className="px-6 py-4 text-xs font-medium text-gray-500">
-                                            Button
+                                            <div className="flex items-center space-x-2">
+                                                <button
+                                                    onClick={() => handelEdit(val)}
+                                                    className="rounded-full bg-green-200 py-1 px-4 text-green-700"
+                                                    type="button"
+                                                >
+                                                    Edit
+                                                </button>
+                                                <button
+                                                    className="rounded-full bg-red-200 py-1 px-4 text-red-700"
+                                                    type="button"
+                                                >
+                                                    Delete
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
                                 ))}

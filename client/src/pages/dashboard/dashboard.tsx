@@ -1,3 +1,5 @@
+/* eslint-disable no-plusplus */
+/* eslint-disable react/jsx-no-bind */
 import LoadingButton from "components/Button/LoadingButton";
 import useAuth from "hooks/useAuth";
 import useAxiosPrivate from "hooks/useAxiosPrivate";
@@ -51,6 +53,7 @@ function Dashboard() {
     const [isGetTransectionLoading, setIsGetTransectionLoading] = useState(false);
     const [viewData, setViewData] = useState(localStorage.getItem("viewData") || "table");
     const [currentLocation, setCurrentLocation] = useState<any>("");
+    const [isEditing, setIsEditing] = useState(null);
 
     useEffect(() => {
         localStorage.setItem("viewData", viewData);
@@ -98,16 +101,38 @@ function Dashboard() {
         }
         setLoading(true);
         try {
-            const response = await httpTransectionService.addTransection(usersData, {
-                headers: {
-                    Authorization: `Bearer ${auth?.accessToken}`,
-                },
-            });
-            if (response.success) {
-                setIsOpen(false);
+            if (!isEditing) {
+                const response = await httpTransectionService.addTransection(usersData, {
+                    headers: {
+                        Authorization: `Bearer ${auth?.accessToken}`,
+                    },
+                });
+                if (response.success) {
+                    toast.success("Transection has been created!");
+                }
+            } else {
+                const response = await httpTransectionService.editTransection(
+                    usersData,
+                    isEditing,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${auth?.accessToken}`,
+                        },
+                    }
+                );
+                if (response.success) {
+                    setIsEditing(null);
+                    toast.success("Transection has been updated!");
+                }
             }
-
-            toast.success("Transection has been created!");
+            setUsersData({
+                amount: "",
+                type: "",
+                category: "",
+                description: "",
+                reference: "",
+                date: "",
+            });
         } catch (error) {
             toast.error("Failed to add Transection!!");
         } finally {
@@ -151,6 +176,20 @@ function Dashboard() {
             isMounted = false;
         };
     }, [auth, loading, frequency, type]);
+
+    function handelEdit(transection: any) {
+        setIsEditing(transection._id);
+        setUsersData({
+            amount: transection?.amount,
+            type: transection?.type,
+            category: transection?.category,
+            description: transection?.description,
+            reference: transection?.reference,
+            date: transection?.date,
+        });
+
+        setIsOpen(true);
+    }
 
     return (
         <section>
@@ -229,6 +268,7 @@ function Dashboard() {
                             {transections.length > 0 ? (
                                 viewData === "table" ? (
                                     <DashboardTable
+                                        handelEdit={handelEdit}
                                         currentLocation={currentLocation}
                                         tableHeadData={tableHeadData}
                                         transections={transections}
@@ -249,7 +289,11 @@ function Dashboard() {
                 </div>
             </div>
             {/* Add Transection Modal */}
-            <DashboardModal title="Add Transection" isOpen={isOpen} setIsOpen={setIsOpen}>
+            <DashboardModal
+                title={isEditing ? "Edit Transection" : "Add Transection"}
+                isOpen={isOpen}
+                setIsOpen={setIsOpen}
+            >
                 <form onSubmit={handelSave} className="space-y-4">
                     <label className="flex flex-col space-y-2" htmlFor="amount">
                         <span className="text-xs">Amount</span>
@@ -277,6 +321,7 @@ function Dashboard() {
                         <select
                             className="rounded border-gray-300 py-3 text-sm focus:outline-none focus:ring-0"
                             name="type"
+                            value={usersData?.type}
                             onChange={handleInputChange}
                             id="type"
                         >
@@ -291,6 +336,7 @@ function Dashboard() {
                         <select
                             className="rounded border-gray-300 py-3 text-sm focus:outline-none focus:ring-0"
                             name="category"
+                            value={usersData?.category}
                             onChange={handleInputChange}
                             id="category"
                         >
@@ -312,7 +358,7 @@ function Dashboard() {
                             onChange={handleInputChange}
                             id="date"
                             className="rounded border-gray-300 py-3 text-sm focus:outline-none focus:ring-0"
-                            required
+                            required={!isEditing}
                             type="date"
                             placeholder="example. 250 USD"
                             autoComplete="off"
