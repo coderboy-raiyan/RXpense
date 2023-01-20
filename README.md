@@ -2,7 +2,7 @@
 
 ---
 
-Visit my Rxpense website [Kino](https://expense-tracker-tawny-ten.vercel.app/)
+Visit my Rxpense website [Rxpense](https://expense-tracker-tawny-ten.vercel.app/)
 
 ### Author Links
 
