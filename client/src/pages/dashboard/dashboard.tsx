@@ -166,9 +166,6 @@ function Dashboard() {
                     )
                 );
             } catch (error) {
-                if (error) {
-                    toast.error(`Couldn't get the Transections`);
-                }
                 console.log(error);
             } finally {
                 setIsGetTransectionLoading(false);
