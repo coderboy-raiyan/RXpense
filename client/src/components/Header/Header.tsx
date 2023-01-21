@@ -33,8 +33,8 @@ function Header() {
     }
 
     return (
-        <header className="border-general sticky top-0 z-[100] border-b">
-            <nav className="mx-4 bg-slate-50">
+        <header className="border-general sticky top-0 z-[100] border-b bg-slate-50">
+            <nav className="mx-4 ">
                 <div className="container lg:mx-auto lg:max-w-6xl">
                     <div className="relative flex h-16 items-center justify-between">
                         {/* left side */}
@@ -89,7 +89,7 @@ function Header() {
 
                             {auth.email && (
                                 <>
-                                    <li className="animate-pulse">
+                                    <li className="animate-pulse font-semibold text-red-400">
                                         <Link to="/dashboard">Dashboard</Link>
                                     </li>
                                     <li className="font-bold">Welcome, {auth?.name}</li>

@@ -18,7 +18,7 @@ function Login() {
     const { auth, setAuth } = useAuth();
     const location = useLocation();
     const navigate = useNavigate();
-    const from: string = location?.state?.from?.pathname || "/";
+    const from: string = location?.state?.from?.pathname || "/dashboard";
 
     useEffect(() => {
         if (auth?.email) {

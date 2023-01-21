@@ -47,7 +47,7 @@ function Register() {
             setAuth(response);
             if (response.success) {
                 toast.success("Signed up Successfully");
-                navigate(location?.state?.from);
+                navigate(location?.state?.from || "/dashboard");
             }
         } catch (error: any) {
             const errorMsg = error?.response?.data?.message;
