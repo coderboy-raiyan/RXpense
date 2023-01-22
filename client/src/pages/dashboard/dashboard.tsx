@@ -49,7 +49,7 @@ function Dashboard() {
     const { httpTransectionService } = useAxiosPrivate();
     const [transections, setTransections] = useState([]);
     const [tableHeadData, setTableHeadData] = useState({});
-    const [frequency, setFrequency] = useState("7");
+    const [frequency, setFrequency] = useState("30");
     const [type, setType] = useState("all");
     const [isGetTransectionLoading, setIsGetTransectionLoading] = useState(false);
     const [viewData, setViewData] = useState(localStorage.getItem("viewData") || "table");
