@@ -234,11 +234,11 @@ function Dashboard() {
                         <div className="w-full space-y-2 lg:w-auto">
                             <h3 className="text-sm">Select Frequency</h3>
                             <select
-                                className="w-full rounded text-sm text-gray-500 lg:w-auto"
+                                className="texts-sm w-full rounded text-gray-500 lg:w-auto"
                                 onChange={(e) => setFrequency(e.target.value)}
                             >
-                                <option value="7">Last 1 week</option>
                                 <option value="30">Last 1 Month</option>
+                                <option value="7">Last 1 week</option>
                                 <option value="365">Last 1 Year</option>
                                 <option value="custom">custom</option>
                             </select>
